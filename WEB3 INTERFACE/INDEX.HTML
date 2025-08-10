@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 dApp Interface</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+        }
+        h2 {
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-top: 0;
+            color: #34495e;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, button {
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        .button-group button {
+            flex-grow: 1;
+        }
+        .info-display {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            min-height: 20px;
+            word-wrap: break-word;
+            font-family: "Courier New", Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Web3 dApp Interface</h1>
+
+    <div class="container">
+        <div class="section">
+            <h2>EVM (Ethereum) Reward System</h2>
+            <div class="form-group">
+                <label for="stakeAmount">Stake Tokens</label>
+                <input type="number" id="stakeAmount" placeholder="Amount to stake">
+                <button onclick="stakeTokens()">Stake</button>
+            </div>
+            <div class="form-group">
+                <label for="unstakeAmount">Unstake Tokens</label>
+                <input type="number" id="unstakeAmount" placeholder="Amount to unstake">
+                <button onclick="unstakeTokens()">Unstake</button>
+            </div>
+            <div class="form-group">
+                <label for="rewardAmount">Earn Reward</label>
+                <input type="number" id="rewardAmount" placeholder="Reward amount">
+                <button onclick="earnReward()">Earn Reward</button>
+            </div>
+            <div class="form-group">
+                <label>Account Status</label>
+                <button onclick="checkBalance()">Check Balance</button>
+                <div id="balanceResult" class="info-display">Balance: -</div>
+                <button onclick="checkStakedAmount()" style="margin-top: 10px;">Check Staked Amount</button>
+                <div id="stakedAmountResult" class="info-display">Staked: -</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>EVM (Ethereum) Node Management</h2>
+            <div class="form-group">
+                <label for="nodeType">Register Node</label>
+                <input type="text" id="nodeType" placeholder="e.g., validator, oracle">
+                <button onclick="registerNode()">Register Node</button>
+            </div>
+            <div class="form-group">
+                <label>Manage Your Node</label>
+                 <div class="button-group">
+                    <button onclick="activateNode()">Activate</button>
+                    <button onclick="deactivateNode()">Deactivate</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nodeOwner">Get Node Info</label>
+                <input type="text" id="nodeOwner" placeholder="Node owner address">
+                <button onclick="getNodeInfo()">Get Info</button>
+                <div id="nodeInfoResult" class="info-display"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Solana Reward System</h2>
+            <div class="form-group">
+                <label for="solanaStakeAmount">Stake Tokens</label>
+                <input type="number" id="solanaStakeAmount" placeholder="Amount to stake">
+                <button onclick="solanaStakeTokens()">Stake Tokens</button>
+            </div>
+            <div class="form-group">
+                <label for="solanaUnstakeAmount">Unstake Tokens</label>
+                <input type="number" id="solanaUnstakeAmount" placeholder="Amount to unstake">
+                <button onclick="solanaUnstakeTokens()">Unstake Tokens</button>
+            </div>
+            <div class="form-group">
+                <label for="solanaRewardAmount">Earn Reward</label>
+                <input type="number" id="solanaRewardAmount" placeholder="Reward amount">
+                <button onclick="solanaEarnReward()">Earn Reward</button>
+            </div>
+            <div class="form-group">
+                <label>Account Status (On-Chain)</label>
+                <button onclick="solanaCheckBalance()">Check Balance</button>
+                <div id="solanaBalanceResult" class="info-display">Balance: -</div>
+                 <button onclick="solanaCheckStakedAmount()" style="margin-top: 10px;">Check Staked Amount</button>
+                 <div id="solanaStakedAmountResult" class="info-display">Staked: -</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Solana Node Management</h2>
+            <div class="form-group">
+                <label for="solanaNodeType">Register Node</label>
+                <input type="text" id="solanaNodeType" placeholder="e.g., validator, rpc">
+                <button onclick="solanaRegisterNode()">Register Node</button>
+            </div>
+             <div class="form-group">
+                <label>Manage Your Node</label>
+                 <div class="button-group">
+                    <button onclick="solanaActivateNode()">Activate</button>
+                    <button onclick="solanaDeactivateNode()">Deactivate</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="solanaNodeOwner">Get Node Info</label>
+                <input type="text" id="solanaNodeOwner" placeholder="Node owner public key">
+                <button onclick="solanaGetNodeInfo()">Get Node Info</button>
+                <div id="solanaNodeInfoResult" class="info-display"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.91.4/lib/index.iife.min.js"></script>
+    <script>
+      // Polyfill Buffer for demonstration purposes, as it's used in the mock Solana functions.
+      // This is often needed when using blockchain libraries in the browser.
+      // In a real app, a bundler like Webpack or Vite would handle this.
+      var Buffer = {
+        from: function(str, encoding) {
+          // A very simplified mock for UTF-8 strings
+          if (encoding === 'utf-8') {
+            return {
+              toString: function() { return str; },
+              length: new TextEncoder().encode(str).length
+            };
+          }
+          // A simplified mock for byte arrays
+          return { 
+            toString: function(enc) { return `[Mock Buffer: ${str.join(', ')}]`; },
+            length: str.length 
+          };
+        }
+      };
+    </script>
+    <script src="doa/doa-app.js"></script>
+
+</body>
+</html>
